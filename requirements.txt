@@ -1,15 +1,14 @@
-# requirements.txt - STREAMLIT CLOUD COMPATIBLE
+# requirements.txt - PYTHON 3.13 COMPATIBLE
 streamlit==1.28.0
 fastapi==0.104.1
 uvicorn==0.24.0
 langchain==0.0.354
-faiss-cpu==1.7.4; python_version < '3.12'
-chromadb==0.4.22; python_version >= '3.12'
+chromadb==0.4.22
 sentence-transformers==2.2.2
 pypdf2==3.0.1
 python-docx==0.8.11
-pandas==2.1.1
+pandas==2.2.2
 python-dotenv==1.0.0
 requests==2.31.0
-numpy==1.24.3
+numpy==2.0.1
 tiktoken==0.5.2
