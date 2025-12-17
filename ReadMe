@@ -1,0 +1,351 @@
+# Resume Intelligence System
+
+## 🚀 Overview
+Resume Intelligence System is an AI-powered application that analyzes resumes and provides intelligent insights using state-of-the-art natural language processing and machine learning techniques. The system helps recruiters, HR professionals, and job seekers by extracting key information, matching candidates to job descriptions, and providing actionable insights.
+
+## ✨ Features
+
+### 🔍 Resume Parsing & Analysis
+- **Multi-format Support**: Parse PDF, DOCX, and TXT resume formats
+- **Entity Extraction**: Extract key information (name, email, phone, education, experience, skills)
+- **NLP Processing**: Advanced natural language processing for understanding resume content
+- **Skill Recognition**: Automatic identification and categorization of technical and soft skills
+
+### 🤖 AI-Powered Insights
+- **Job Matching**: Intelligent matching between resumes and job descriptions
+- **Skill Gap Analysis**: Identify missing skills for target positions
+- **ATS Optimization**: Suggestions to improve resume ATS compatibility
+- **Experience Analysis**: Detailed analysis of work experience and career progression
+
+### 📊 Analytics Dashboard
+- **Visual Analytics**: Interactive charts and graphs of resume metrics
+- **Comparison Tools**: Side-by-side comparison of multiple resumes
+- **Score Calculation**: Comprehensive scoring system for resume quality
+- **Recommendation Engine**: Personalized suggestions for improvement
+
+### 🔧 Technical Capabilities
+- **FastAPI Backend**: High-performance REST API with async support
+- **Streamlit UI**: Interactive web interface for easy usage
+- **Docker Containerization**: Easy deployment with Docker
+- **CI/CD Pipeline**: Automated testing and deployment with GitHub Actions
+
+## 🏗️ Architecture
+
+```
+├── app/
+│   ├── api/           # FastAPI application
+│   ├── models/        # Machine learning models
+│   ├── services/      # Business logic services
+│   └── utils/         # Utility functions
+├── ingest/
+│   ├── parsers/       # Resume parsers (PDF, DOCX, TXT)
+│   ├── processors/    # Data processors
+│   └── validators/    # Data validation
+├── ui/
+│   ├── streamlit/     # Streamlit web interface
+│   ├── components/    # Reusable UI components
+│   └── pages/         # Application pages
+├── tests/             # Test suite
+├── Dockerfile         # Docker configuration
+├── requirements.txt   # Python dependencies
+├── run_api.py         # API entry point
+└── .github/workflows/ # CI/CD pipelines
+```
+
+## 🛠️ Technology Stack
+
+### Backend
+- **Python 3.11+**: Primary programming language
+- **FastAPI**: Modern, fast web framework for APIs
+- **Pydantic**: Data validation and settings management
+- **SQLAlchemy**: Database ORM
+- **PostgreSQL**: Primary database
+- **Redis**: Caching and session management
+
+### AI/ML
+- **spaCy**: Natural language processing
+- **scikit-learn**: Machine learning algorithms
+- **Transformers (Hugging Face)**: Pre-trained NLP models
+- **NLTK**: Text processing utilities
+- **Sentence Transformers**: Semantic similarity
+
+### Frontend
+- **Streamlit**: Rapid web application development
+- **Plotly**: Interactive visualizations
+- **Pandas**: Data manipulation and display
+
+### DevOps
+- **Docker**: Containerization
+- **GitHub Actions**: CI/CD pipelines
+- **Render/Vercel**: Deployment platforms
+- **PostgreSQL**: Cloud database
+
+## 📦 Installation
+
+### Prerequisites
+- Python 3.11 or higher
+- PostgreSQL 14+
+- Docker (optional)
+- Git
+
+### Local Development
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/Pratikmehata/Resume-Intelligence-system.git
+cd Resume-Intelligence-system
+```
+
+2. **Create virtual environment**
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. **Install dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+4. **Set up environment variables**
+```bash
+cp .env.example .env
+# Edit .env with your configuration
+```
+
+5. **Initialize database**
+```bash
+python -m app.db.init
+```
+
+6. **Run the application**
+```bash
+# Start FastAPI server
+uvicorn app.api.main:app --reload --port 8000
+
+# In another terminal, start Streamlit UI
+cd ui/streamlit
+streamlit run app.py
+```
+
+### Docker Deployment
+
+1. **Build and run with Docker Compose**
+```bash
+docker-compose up --build
+```
+
+2. **Access the application**
+- API: http://localhost:8000
+- API Documentation: http://localhost:8000/docs
+- Streamlit UI: http://localhost:8501
+
+## 🚀 Quick Start
+
+### Using the API
+
+```python
+import requests
+
+# Parse a resume
+response = requests.post(
+    "http://localhost:8000/api/v1/parse",
+    files={"file": open("resume.pdf", "rb")}
+)
+parsed_data = response.json()
+
+# Analyze resume with job description
+analysis = requests.post(
+    "http://localhost:8000/api/v1/analyze",
+    json={
+        "resume_data": parsed_data,
+        "job_description": "Looking for Python developer with ML experience..."
+    }
+)
+```
+
+### Using the Web Interface
+
+1. Navigate to http://localhost:8501
+2. Upload your resume (PDF, DOCX, or TXT)
+3. Enter a job description (optional)
+4. View analysis results, insights, and recommendations
+
+## 📚 API Documentation
+
+### Endpoints
+
+#### `POST /api/v1/parse`
+Parse a resume file and extract structured information.
+
+**Request:**
+- `file`: Resume file (PDF, DOCX, TXT)
+- `extract_skills`: Boolean (default: true)
+- `extract_experience`: Boolean (default: true)
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "personal_info": {...},
+    "education": [...],
+    "experience": [...],
+    "skills": [...],
+    "summary": "..."
+  }
+}
+```
+
+#### `POST /api/v1/analyze`
+Analyze resume against a job description.
+
+**Request:**
+```json
+{
+  "resume_data": {...},
+  "job_description": "string",
+  "analysis_type": ["match", "skills", "improvements"]
+}
+```
+
+#### `GET /api/v1/health`
+Health check endpoint.
+
+### Interactive Documentation
+Access the interactive API documentation at:
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
+
+## 🧪 Testing
+
+Run the test suite:
+
+```bash
+# Run all tests
+pytest
+
+# Run with coverage
+pytest --cov=app --cov-report=html
+
+# Run specific test module
+pytest tests/test_parsers.py -v
+```
+
+## 🔧 Configuration
+
+### Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| DATABASE_URL | PostgreSQL connection URL | postgresql://localhost/resume_db |
+| REDIS_URL | Redis connection URL | redis://localhost:6379 |
+| OPENAI_API_KEY | OpenAI API key (optional) | - |
+| MODEL_CACHE_DIR | Directory for model caching | ./models |
+| DEBUG | Debug mode | False |
+| LOG_LEVEL | Logging level | INFO |
+
+### Model Configuration
+
+The system uses a combination of:
+1. **spaCy models** for NER and dependency parsing
+2. **BERT-based models** for semantic understanding
+3. **Custom ML models** for classification and scoring
+
+## 📊 Data Flow
+
+1. **Input**: User uploads resume file or provides text
+2. **Parsing**: System extracts structured data using NLP
+3. **Processing**: Data is cleaned, normalized, and enhanced
+4. **Analysis**: AI models analyze content and generate insights
+5. **Output**: Structured results with scores and recommendations
+
+## 🚢 Deployment
+
+### Render Deployment
+
+1. **Create a new Web Service on Render**
+2. **Connect your GitHub repository**
+3. **Configure build settings:**
+   ```yaml
+   Build Command: pip install -r requirements.txt
+   Start Command: uvicorn app.api.main:app --host 0.0.0.0 --port $PORT
+   ```
+4. **Add environment variables**
+5. **Deploy**
+
+### Docker Deployment
+
+```bash
+# Build the image
+docker build -t resume-intelligence .
+
+# Run the container
+docker run -p 8000:8000 resume-intelligence
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+1. **Fork the repository**
+2. **Create a feature branch**
+3. **Make your changes**
+4. **Run tests**
+5. **Submit a pull request**
+
+### Development Setup
+
+```bash
+# Install development dependencies
+pip install -r requirements-dev.txt
+
+# Setup pre-commit hooks
+pre-commit install
+
+# Run code quality checks
+pre-commit run --all-files
+```
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👥 Team
+
+- **Pratik Mehata** - Project Lead & Developer
+- [Add other contributors]
+
+## 🙏 Acknowledgments
+
+- Thanks to the open-source NLP community
+- Built with amazing Python libraries
+- Inspired by modern recruitment challenges
+
+## 📞 Support
+
+For support, please:
+1. Check the [documentation](docs/) first
+2. Open an [issue](https://github.com/Pratikmehata/Resume-Intelligence-system/issues)
+3. Email: pratikmehta061@gmail.com
+
+## 📈 Roadmap
+
+- [ ] Multi-language support
+- [ ] Real-time collaboration features
+- [ ] Advanced ML model integration
+- [ ] Mobile application
+- [ ] Integration with LinkedIn and job portals
+- [ ] Advanced analytics and reporting
+
+---
+
+**⭐ Star this repo if you find it useful!**
+
+[![GitHub stars](https://img.shields.io/github/stars/Pratikmehata/Resume-Intelligence-system?style=social)](https://github.com/Pratikmehata/Resume-Intelligence-system/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/Pratikmehata/Resume-Intelligence-system?style=social)](https://github.com/Pratikmehata/Resume-Intelligence-system/network/members)
+
+**Connect with me:**
+- [LinkedIn](https://www.linkedin.com/in/pratikmehata)
+- [GitHub](https://github.com/Pratikmehata)
+- [Portfolio](https://pratikmehata.github.io)
